@@ -1,0 +1,6 @@
+QUANDL_API_KEY s-GMZ_xkw6CrkGYUWs1p
+BASE_URL https://www.quandl.com/api/v3/datasets/WIKI/
+FILE_FORMAT .csv?
+START_DATE start_date=
+END_DATE &end_date=
+API_KEY &api_key=
