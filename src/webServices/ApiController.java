@@ -42,8 +42,8 @@ public class ApiController {
 			//find the average volume while inputing to avoid an extra O(n) loop
 			//only disadvantage is that you're adding logic in an API call
 			//is the trade off worth it?
-			double count = 0;
-			double total = 0;
+			double count = 0.0;
+			double total = 0.0;
 
 			//loop through each line of the returned CSV
 			while ((output = br.readLine()) != null) {

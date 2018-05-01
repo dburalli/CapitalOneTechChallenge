@@ -29,20 +29,23 @@ public class StockLogicController {
 		Company google = new Company("Alphabet Corp.", "GOOGL", googleStockData);
 		Company microsoft = new Company("Microsoft Corp.", "MSFT", microsoftStockData);
 		Company capitalOneFinance = new Company("Capital One Finance", "COF", capitalOneFinanceStockData);
-		//add companies to list of companies to loops through
+		//add companies to list of companies to loop through later
 		companyList.add(google);
 		companyList.add(microsoft);
 		companyList.add(capitalOneFinance);
 		
 		
 		//call the API for each company to fill in the stock objects for each days data
+		//API only allows for single Ticker at a time
 		for(Company company: companyList) {
 			ApiController.setStockDataFromAPI(company, START_DATE, END_DATE);
 		}	
 		
+		//user keyed choice
 		int choice = 0;
 		//User prompt
 		while (choice != 4) {
+			//produce menu in command prompt
 			Scanner reader = new Scanner(System.in);
 			System.out.println("Please enter a number corresonding with one of the following choices:");
 			System.out.println("1 - Display The Average Monthly Opening And Closing Prices");
@@ -50,9 +53,10 @@ public class StockLogicController {
 			System.out.println("3 - Display Data Of Days With Volume Trade Over 10%");
 			System.out.println("4 - Exit Application");
 			
-			//make sure its an int we are reading in, otherwise print out error message
+			//make sure its an int we are reading in, otherwise print out error message and loop back to retry
 			try {
 				choice = reader.nextInt();
+				//also generates an error as its not a valid choice number
 				if (choice < 1 || choice > 4) {
 					System.out.println("Please enter a valid choice");
 				}
@@ -77,14 +81,6 @@ public class StockLogicController {
 			}
 		}
 		
-		
-		//cycle through list of companies
-		
-		//System.out.println(google.calculateMonthlyAverages("06"));
-		//System.out.println(google.findHighVolumeDays());
-
-		
-		
 	}
 	
 	public static void displayAverages(ArrayList<Company> companyList) {
@@ -95,14 +91,14 @@ public class StockLogicController {
 			}
 		System.out.println("________________________________________________");
 		}
-		System.out.println("\n\n\n");
+		System.out.println("\n\n");
 	}
 	
 	public static void displayGreatestGain(ArrayList<Company> companyList) {
 		for(Company company: companyList) {
 					System.out.println(company.findMaxDailyProfit());
 			}
-		System.out.println("\n\n\n");
+		System.out.println("\n\n");
 	}
 	
 	public static void displayHighVolumeDays(ArrayList<Company> companyList) {
@@ -110,7 +106,7 @@ public class StockLogicController {
 			System.out.println(company.findHighVolumeDays());
 			System.out.println("________________________________________________");
 		}
-		System.out.println("\n\n\n");
+		System.out.println("\n\n");
 	}
 	
 }

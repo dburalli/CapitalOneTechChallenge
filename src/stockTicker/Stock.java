@@ -1,5 +1,6 @@
 package stockTicker;
 
+//This Stock object represents a daily stock data item and the values pertaining to it
 public class Stock {
 	
 	public String stockSymbol;
