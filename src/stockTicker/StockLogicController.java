@@ -41,13 +41,16 @@ public class StockLogicController {
 		
 		
 		//cycle through list of companies
-		for(Company company: companyList) {
+		
+		//System.out.println(google.calculateMonthlyAverages("06"));
+		System.out.println(google.findMaxDailyProfit());
+		/*for(Company company: companyList) {
 			//for each company, get each month, 1 - 6
 			for(int i = 1; i <= 6; i++) {
 				System.out.println(company.calculateMonthlyAverages("0" + Integer.toString(i)));
 			}
 			System.out.println("________________________________________________");
-		}
+		}*/
 		
 		
 	}

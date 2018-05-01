@@ -30,16 +30,30 @@ public class Company {
 			if(stock.stockDate.split("-")[1].equals(month)) {
 				closeTotal = closeTotal + stock.dailyClose;
 				openTotal = openTotal + stock.dailyOpen;
+				System.out.println(stock.dailyClose);
 				count++;
 				date = stock.stockDate;
 			}
 		}
-		
 		//calculate averages, total/number of entries
 		closeTotal = closeTotal/count;
 		openTotal = openTotal/count;
 		
+		//output string
 		return ("Month: " + date.substring(0,7) + " total for " + name + " average opening: $" + df.format(openTotal) + " average closing: $" + df.format(closeTotal));
+	}
+	
+	public String findMaxDailyProfit() {
+		double maxDifference = 0.0;
+		String maxDifferenceDate = "invalid";
+		
+		for(Stock stock: historicTickerData) {
+			if(stock.dailyClose - stock.dailyOpen > maxDifference) {
+				maxDifference = stock.dailyClose - stock.dailyOpen;
+				maxDifferenceDate = stock.stockDate;
+			}
+		}
+		return ("Highest Yield Date For " + tickerSymbol + ": " + maxDifferenceDate + " $" + maxDifference);
 	}
 
 }
