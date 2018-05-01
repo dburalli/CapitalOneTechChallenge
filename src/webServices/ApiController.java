@@ -39,12 +39,27 @@ public class ApiController {
 			//read the headers because we don't need them
 			br.readLine();
 			
+			//find the average volume while inputing to avoid an extra O(n) loop
+			//only disadvantage is that you're adding logic in an API call
+			//is the trade off worth it?
+			double count = 0;
+			double total = 0;
+
+			//loop through each line of the returned CSV
 			while ((output = br.readLine()) != null) {
 				//this is going to break if there is no data, or the values change on their table
 				String[] parsedData = output.split(",");
-				Stock stock = new Stock(parsedData[0],parsedData[1],parsedData[4],parsedData[5]);
+				Stock stock = new Stock(parsedData[0],parsedData[1],parsedData[4],parsedData[5],company.tickerSymbol);
+				//add the stock to the list
 				company.historicTickerData.add(stock);
+				
+				//this logic adds to the total of VOLUME to get the average
+				total = total + Double.parseDouble(parsedData[5]);
+				count++;
+				
 			}
+			//sets the average volume for the company
+			company.setAverageVolume(total/count);
 
 			conn.disconnect();
 

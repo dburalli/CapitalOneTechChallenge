@@ -6,19 +6,15 @@ public class Stock {
 	String stockDate;
 	double dailyOpen;
 	double dailyClose;
-	public int dailyVolume;
+	double dailyVolume;
 
 	
-	public Stock(String stockDate, String dailyOpen, String dailyClose, String dailyVolume) {
+	public Stock(String stockDate, String dailyOpen, String dailyClose, String dailyVolume, String stockSymbol) {
 		this.stockDate = stockDate;
 		this.dailyOpen = Double.parseDouble(dailyOpen);
 		this.dailyClose = Double.parseDouble(dailyClose);
-		this.dailyVolume = Integer.parseInt(dailyVolume);
+		this.dailyVolume = Double.parseDouble(dailyVolume);
+		this.stockSymbol = stockSymbol;
 	}
-	
-	public void setStockSymbol(String name) {
-		stockSymbol = name;
-	}
-	
 	
 }

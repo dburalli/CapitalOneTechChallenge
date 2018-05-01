@@ -9,6 +9,12 @@ public class Company {
 	public ArrayList<Stock> historicTickerData = new ArrayList<Stock>();
 	public String name;
 	public String tickerSymbol;
+	public double averageVolume;
+
+	public void setAverageVolume(double averageVolume) {
+		this.averageVolume = averageVolume;
+	}
+
 	DecimalFormat df = new DecimalFormat("#.##");
 
 	
@@ -19,7 +25,7 @@ public class Company {
 		//this will later set the averages
 		df.setRoundingMode(RoundingMode.CEILING);
 	}
-	
+
 	public String calculateMonthlyAverages(String month) throws ArithmeticException{
 		double closeTotal = 0.0;
 		double openTotal = 0.0;
@@ -30,7 +36,6 @@ public class Company {
 			if(stock.stockDate.split("-")[1].equals(month)) {
 				closeTotal = closeTotal + stock.dailyClose;
 				openTotal = openTotal + stock.dailyOpen;
-				System.out.println(stock.dailyClose);
 				count++;
 				date = stock.stockDate;
 			}
@@ -53,30 +58,21 @@ public class Company {
 				maxDifferenceDate = stock.stockDate;
 			}
 		}
-		return ("Highest Yield Date For " + tickerSymbol + ": " + maxDifferenceDate + " $" + maxDifference);
+		return ("Highest Yield Date For " + tickerSymbol + ": " + maxDifferenceDate + " $" + df.format(maxDifference));
 	}
 	
-	public ArrayList<String> findHighVolumeDays() throws ArithmeticException{
-		ArrayList<String> volumeDays = new ArrayList<String>();
-		int count = 0;
-		long total = 0;
-		long average = 0;
-		for(Stock stock: historicTickerData) {
-			total = total + stock.dailyVolume;
-			count++;
-		}
-		
-		average = total/count;
+	public String findHighVolumeDays() throws ArithmeticException{
+		String volumeDays = tickerSymbol + " Average Volume: " +  averageVolume + "\n";
 		
 		for(Stock stock: historicTickerData) {
-			//add logic to see if daily volume is 10% higher than average
 			//dailyVolume - average / |average| * 100
-			 if((((double)stock.dailyVolume - (double)average)/Math.abs((double)average) )* 100 > 10) {
-				
+			 if(((stock.dailyVolume - averageVolume)/Math.abs(averageVolume) )* 100 > 10) {
+				 //Please display the ticker symbol, date, and volume for each day 
+				volumeDays += stock.stockSymbol + " " + stock.stockDate + " " + stock.dailyVolume + "\n";
 			}
 			
 		}
-		return null;
+		return volumeDays;
 	}
 
 }
