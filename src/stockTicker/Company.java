@@ -20,7 +20,7 @@ public class Company {
 		df.setRoundingMode(RoundingMode.CEILING);
 	}
 	
-	public String calculateMonthlyAverages(String month) {
+	public String calculateMonthlyAverages(String month) throws ArithmeticException{
 		double closeTotal = 0.0;
 		double openTotal = 0.0;
 		double count = 0.0;
@@ -56,7 +56,21 @@ public class Company {
 		return ("Highest Yield Date For " + tickerSymbol + ": " + maxDifferenceDate + " $" + maxDifference);
 	}
 	
-	public String findHighVolumeDays() {
+	public ArrayList<String> findHighVolumeDays() throws ArithmeticException{
+		ArrayList<String> volumeDays = new ArrayList<String>();
+		int count = 0;
+		long total = 0;
+		long average = 0;
+		for(Stock stock: historicTickerData) {
+			total = total + stock.dailyVolume;
+			count++;
+		}
+		
+		average = total/count;
+		
+		for(Stock stock: historicTickerData) {
+			//add logic to see if daily volume is 10% higher than average
+		}
 		return null;
 	}
 

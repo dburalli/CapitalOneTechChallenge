@@ -40,9 +40,9 @@ public class ApiController {
 			br.readLine();
 			
 			while ((output = br.readLine()) != null) {
-				//put date, open, and close values in stock then add stock to company history
+				//this is going to break if there is no data, or the values change on their table
 				String[] parsedData = output.split(",");
-				Stock stock = new Stock(parsedData[0],parsedData[1],parsedData[4]);
+				Stock stock = new Stock(parsedData[0],parsedData[1],parsedData[4],parsedData[5]);
 				company.historicTickerData.add(stock);
 			}
 
