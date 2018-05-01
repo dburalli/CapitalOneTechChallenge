@@ -70,6 +70,11 @@ public class Company {
 		
 		for(Stock stock: historicTickerData) {
 			//add logic to see if daily volume is 10% higher than average
+			//dailyVolume - average / |average| * 100
+			 if((((double)stock.dailyVolume - (double)average)/Math.abs((double)average) )* 100 > 10) {
+				
+			}
+			
 		}
 		return null;
 	}
