@@ -55,5 +55,9 @@ public class Company {
 		}
 		return ("Highest Yield Date For " + tickerSymbol + ": " + maxDifferenceDate + " $" + maxDifference);
 	}
+	
+	public String findHighVolumeDays() {
+		return null;
+	}
 
 }
