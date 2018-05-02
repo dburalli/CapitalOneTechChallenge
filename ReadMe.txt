@@ -1,7 +1,8 @@
 To RUN: 
 
-Clone project and open in IDE.
+Clone project and open in IDE. 
 Add environmentVariables.txt file 
+Run the Main() in src/stockTicker/StockLogicController.java
 
 _________________________________________________________________________________________
 environmentVariables.txt has been separated from the project so as to not push APIKeys to 
