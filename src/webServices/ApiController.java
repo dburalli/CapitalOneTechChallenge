@@ -15,12 +15,14 @@ public class ApiController {
 	
 	public static void setStockDataFromAPI(Company company, String startDate, String endDate){
 		
+
+			
+		  try {
+			  
 			//Create a map to hold the tokens passed in from the tokenizer (i.e. API key and connection string vars)
 			// make final because they shouldn't be altered
 			final Map<String, String> urlTokens = Tokenizer.fileTokenizer();
 			String connectionURL = urlBuilder(company.tickerSymbol, startDate, endDate, urlTokens);
-			
-		  try {
 
 			URL url = new URL(connectionURL);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -43,23 +45,26 @@ public class ApiController {
 			//only disadvantage is that you're adding logic in an API call
 			//is the trade off worth it?
 			double count = 0.0;
-			double total = 0.0;
+			double totalVolume = 0.0;
 
 			//loop through each line of the returned CSV
 			while ((output = br.readLine()) != null) {
 				//this is going to break if there is no data, or the values change on their table
 				String[] parsedData = output.split(",");
-				Stock stock = new Stock(parsedData[0],parsedData[1],parsedData[4],parsedData[5],company.tickerSymbol);
-				//add the stock to the list
-				company.historicTickerData.add(stock);
-				
-				//this logic adds to the total of VOLUME to get the average
-				total = total + Double.parseDouble(parsedData[5]);
+				try{
+					//add the stock to the list
+					Stock stock = new Stock(parsedData[0],parsedData[1],parsedData[4],parsedData[5],company.tickerSymbol);
+					company.historicTickerData.add(stock);
+					//this logic adds to the total of VOLUME to get the average
+					totalVolume = totalVolume + Double.parseDouble(parsedData[5]);
+				}catch(ArrayIndexOutOfBoundsException e) {
+					System.out.println("Malformed CSV Row");
+				}
+				//increase count of dailyVolumes added to get the average
 				count++;
-				
 			}
 			//sets the average volume for the company
-			company.setAverageVolume(total/count);
+			company.setAverageVolume(totalVolume/count);
 
 			conn.disconnect();
 
@@ -68,14 +73,17 @@ public class ApiController {
 			e.printStackTrace();
 
 		  } catch (IOException e) {
-
+			  
 			e.printStackTrace();
-
+			
+		  } catch (NullPointerException e) {
+			  //incase any of the file read in is bad
+			  e.printStackTrace();		  
 		  }
 		  
 		}
 		
-		public static String urlBuilder(String tickerSymbol, String startTime, String endTime, Map<String, String> urlTokens) {
+		public static String urlBuilder(String tickerSymbol, String startTime, String endTime, Map<String, String> urlTokens) throws NullPointerException{
 		
 			return urlTokens.get("BASE_URL")+tickerSymbol+urlTokens.get("FILE_FORMAT")+
 					urlTokens.get("START_DATE")+startTime+urlTokens.get("END_DATE")+endTime+

@@ -84,14 +84,18 @@ public class StockLogicController {
 	}
 	
 	public static void displayAverages(ArrayList<Company> companyList) {
-		for(Company company: companyList) {
-		//for each company, get each month, 1 - 6
-			for(int i = 1; i <= 6; i++) {
-				System.out.println(company.calculateMonthlyAverages("0" + Integer.toString(i)));
+		try {
+			for(Company company: companyList) {
+			//for each company, get each month, 1 - 6
+				for(int i = 1; i <= 6; i++) {
+					System.out.println(company.calculateMonthlyAverages("0" + Integer.toString(i)));
+				}
+			System.out.println("________________________________________________");
 			}
-		System.out.println("________________________________________________");
+			System.out.println("\n\n");
+		}catch(ArithmeticException e) {
+			System.out.println("Unable to calculate, zero denominator");
 		}
-		System.out.println("\n\n");
 	}
 	
 	public static void displayGreatestGain(ArrayList<Company> companyList) {
@@ -99,14 +103,19 @@ public class StockLogicController {
 					System.out.println(company.findMaxDailyProfit());
 			}
 		System.out.println("\n\n");
+
 	}
 	
 	public static void displayHighVolumeDays(ArrayList<Company> companyList) {
-		for(Company company: companyList) {
-			System.out.println(company.findHighVolumeDays());
-			System.out.println("________________________________________________");
+		try {
+			for(Company company: companyList) {
+				System.out.println(company.findHighVolumeDays());
+				System.out.println("________________________________________________");
+			}
+			System.out.println("\n\n");
+		}catch(ArithmeticException e) {
+			System.out.println("Unable to calculate, zero denominator");
 		}
-		System.out.println("\n\n");
 	}
 	
 }

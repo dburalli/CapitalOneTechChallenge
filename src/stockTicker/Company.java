@@ -13,14 +13,14 @@ public class Company {
 	public String tickerSymbol;
 	public double averageVolume;
 
+	//setting the formats of numbers to beautify them
+	DecimalFormat dollarFormat = new DecimalFormat("#.##");
+	DecimalFormat volumeFormat = new DecimalFormat("##############");
+
 	//a setter called from APIController.java to set the average
 	public void setAverageVolume(double averageVolume) {
 		this.averageVolume = averageVolume;
 	}
-
-	//setting the formats of numbers to beautify them
-	DecimalFormat dollarFormat = new DecimalFormat("#.##");
-	DecimalFormat volumeFormat = new DecimalFormat("##############");
 
 	//Constructor
 	public Company(String name, String tickerSymbol, ArrayList<Stock> historicTickerData) {
@@ -31,7 +31,7 @@ public class Company {
 		dollarFormat.setRoundingMode(RoundingMode.CEILING);
 	}
 
-	
+	//throws to catch unforseen math errors
 	public String calculateMonthlyAverages(String month) throws ArithmeticException{
 		double closeTotal = 0.0;
 		double openTotal = 0.0;
@@ -47,9 +47,13 @@ public class Company {
 				date = stock.stockDate;
 			}
 		}
-		//calculate averages, total/number of entries
-		closeTotal = closeTotal/count;
-		openTotal = openTotal/count;
+		//calculate averages, total/number of entries, returns 0 if no values for that month
+		if(closeTotal != 0.0) {
+			closeTotal = closeTotal/count;
+		}
+		if(openTotal != 0.0) {
+			openTotal = openTotal/count;
+		}
 		
 		//output string
 		return ("Month: " + date.substring(0,7) + " total for " + name + " average opening: $" + dollarFormat.format(openTotal) + " average closing: $" + dollarFormat.format(closeTotal));
@@ -73,7 +77,6 @@ public class Company {
 		String volumeDays = tickerSymbol + " Average Volume: " +  volumeFormat.format(averageVolume) + "\n";
 		//loop through each company's arraylist to compare the average volume to the daily volume and print it out if its higher than average + 10%
 		for(Stock stock: historicTickerData) {
-			System.out.println(stock.dailyVolume);
 			//dailyVolume - average / |average| * 100
 			 if(((stock.dailyVolume - averageVolume)/Math.abs(averageVolume) )* 100 > 10) {
 				 //Please display the ticker symbol, date, and volume for each day 

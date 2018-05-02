@@ -9,9 +9,14 @@ import java.util.*;
 public class Tokenizer {
 	
 	public static Map<String, String> fileTokenizer() {
+		//If it doesn't read this file, or if there is an error in this file, the process displays an error
+		//but if its going to be in prod, should it exit and notify devs?
+		//should it try again, or search a tree for the file?
+		//Would set the filename location in the config
+		
 		
 		//Create map to hold all of the values read in from txt file (API Key, parameters for API get)
-		Map<String, String> Tokens = new HashMap<String, String>();
+		Map<String, String> tokens = new HashMap<String, String>();
 		
 		// The name of the file to open.
 	    String fileName = "src/environmentVariables.txt";
@@ -28,7 +33,7 @@ public class Tokenizer {
 	            new BufferedReader(fileReader);
 	
 	        while((line = bufferedReader.readLine()) != null) {
-	            Tokens.put(line.split(" ")[0], line.split(" ")[1]);
+	            tokens.put(line.split(" ")[0], line.split(" ")[1]);
 	        }   
 
 	        // Always close files.
@@ -45,6 +50,6 @@ public class Tokenizer {
 	            + fileName + "'");                  
 	    }
 	    
-	    return Tokens;
+	    return tokens;
 	}
 }
