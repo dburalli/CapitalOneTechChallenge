@@ -8,19 +8,14 @@ import java.util.*;
 //stock could be stored in this class, but the code looks more organized in a separate class/same package
 public class Company {
 	
-	public ArrayList<Stock> historicTickerData = new ArrayList<Stock>();
-	public String name;
-	public String tickerSymbol;
-	public double averageVolume;
+	private ArrayList<Stock> historicTickerData = new ArrayList<Stock>();
+	private String name;
+	private String tickerSymbol;
+	private double averageVolume;
 
 	//setting the formats of numbers to beautify them
 	DecimalFormat dollarFormat = new DecimalFormat("#.##");
 	DecimalFormat volumeFormat = new DecimalFormat("##############");
-
-	//a setter called from APIController.java to set the average
-	public void setAverageVolume(double averageVolume) {
-		this.averageVolume = averageVolume;
-	}
 
 	//Constructor
 	public Company(String name, String tickerSymbol, ArrayList<Stock> historicTickerData) {
@@ -40,11 +35,11 @@ public class Company {
 		//cycle through each stock in the company's arraylist, not ideal if its a long list though
 		for(Stock stock: historicTickerData) {
 			//find the months that correspond to the one passed in
-			if(stock.stockDate.split("-")[1].equals(month)) {
-				closeTotal = closeTotal + stock.dailyClose;
-				openTotal = openTotal + stock.dailyOpen;
+			if(stock.getStockDate().split("-")[1].equals(month)) {
+				closeTotal = closeTotal + stock.getDailyClose();
+				openTotal = openTotal + stock.getDailyOpen();
 				count++;
-				date = stock.stockDate;
+				date = stock.getStockDate();
 			}
 		}
 		//calculate averages, total/number of entries, returns 0 if no values for that month
@@ -64,9 +59,9 @@ public class Company {
 		String maxDifferenceDate = "invalid";
 		//for each stock in the company's arrayList, get the close - open to find the difference and record the max day profit
 		for(Stock stock: historicTickerData) {
-			if(stock.dailyClose - stock.dailyOpen > maxDifference) {
-				maxDifference = stock.dailyClose - stock.dailyOpen;
-				maxDifferenceDate = stock.stockDate;
+			if(stock.getDailyClose() - stock.getDailyOpen() > maxDifference) {
+				maxDifference = stock.getDailyClose() - stock.getDailyOpen();
+				maxDifferenceDate = stock.getStockDate();
 			}
 		}
 		return ("Highest Yield Date For " + tickerSymbol + ": " + maxDifferenceDate + " $" + dollarFormat.format(maxDifference));
@@ -78,12 +73,29 @@ public class Company {
 		//loop through each company's arraylist to compare the average volume to the daily volume and print it out if its higher than average + 10%
 		for(Stock stock: historicTickerData) {
 			//dailyVolume - average / |average| * 100
-			 if(((stock.dailyVolume - averageVolume)/Math.abs(averageVolume) )* 100 > 10) {
+			 if(((stock.getDailyVolume() - averageVolume)/Math.abs(averageVolume) )* 100 > 10) {
 				 //Please display the ticker symbol, date, and volume for each day 
-				volumeDays += stock.stockSymbol + " " + stock.stockDate + " " + volumeFormat.format(stock.dailyVolume) + "\n";
+				volumeDays += stock.getStockSymbol() + " " + stock.getStockDate() + " " + volumeFormat.format(stock.getDailyVolume()) + "\n";
 			}
 		}
 		return volumeDays;
+	}
+	
+	//a setter called from APIController.java to set the average
+	public void setAverageVolume(double averageVolume) {
+		this.averageVolume = averageVolume;
+	}
+	public String getTickerSymbol() {
+		return tickerSymbol;
+	}
+	public ArrayList<Stock> getHistoricTickerData(){
+		return historicTickerData;
+	}
+	public String getName() {
+		return name;
+	}
+	public double getAverageVolume() {
+		return averageVolume;
 	}
 
 }

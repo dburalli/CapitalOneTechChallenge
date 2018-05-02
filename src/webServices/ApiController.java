@@ -22,7 +22,7 @@ public class ApiController {
 			//Create a map to hold the tokens passed in from the tokenizer (i.e. API key and connection string vars)
 			// make final because they shouldn't be altered
 			final Map<String, String> urlTokens = Tokenizer.fileTokenizer();
-			String connectionURL = urlBuilder(company.tickerSymbol, startDate, endDate, urlTokens);
+			String connectionURL = urlBuilder(company.getTickerSymbol(), startDate, endDate, urlTokens);
 
 			URL url = new URL(connectionURL);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -53,8 +53,8 @@ public class ApiController {
 				String[] parsedData = output.split(",");
 				try{
 					//add the stock to the list
-					Stock stock = new Stock(parsedData[0],parsedData[1],parsedData[4],parsedData[5],company.tickerSymbol);
-					company.historicTickerData.add(stock);
+					Stock stock = new Stock(parsedData[0],parsedData[1],parsedData[4],parsedData[5],company.getTickerSymbol());
+					company.getHistoricTickerData().add(stock);
 					//this logic adds to the total of VOLUME to get the average
 					totalVolume = totalVolume + Double.parseDouble(parsedData[5]);
 				}catch(ArrayIndexOutOfBoundsException e) {

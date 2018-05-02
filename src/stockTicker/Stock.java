@@ -2,12 +2,12 @@ package stockTicker;
 
 //This Stock object represents a daily stock data item and the values pertaining to it
 public class Stock {
-	
-	String stockSymbol;
-	String stockDate;
-	double dailyOpen;
-	double dailyClose;
-	double dailyVolume;
+
+	private String stockSymbol;
+	private String stockDate;
+	private double dailyOpen;
+	private double dailyClose;
+	private double dailyVolume;
 
 	
 	public Stock(String stockDate, String dailyOpen, String dailyClose, String dailyVolume, String stockSymbol) {
@@ -21,5 +21,31 @@ public class Stock {
 		this.dailyVolume = Double.parseDouble(dailyVolume);
 		this.stockSymbol = stockSymbol;
 	}
+	
+	//getters
+	public String getStockSymbol() {
+		return stockSymbol;
+	}
+
+
+	public String getStockDate() {
+		return stockDate;
+	}
+
+
+	public double getDailyOpen() {
+		return dailyOpen;
+	}
+
+
+	public double getDailyClose() {
+		return dailyClose;
+	}
+
+
+	public double getDailyVolume() {
+		return dailyVolume;
+	}
+
 	
 }
